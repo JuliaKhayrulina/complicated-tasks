@@ -1,10 +1,29 @@
-let num = 266219;
-let result = String(num)
-  .split('')
-  .reduce((acc, c) => acc * c);
+let lang = prompt('введите "en" или "ru"', '');
 
-console.log(result);
+//====через многомерный массив=======//
 
-result **= 3;
-console.log(result);
-console.log(String(result).substring(0, 2));
+const daysWeek = [];
+daysWeek.ru = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+daysWeek.en = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+console.log(daysWeek[lang]);
+
+//======через if======//
+
+if (lang == 'ru') {
+  console.log(daysWeek.ru.join(','));
+} else {
+  console.log(daysWeek.en.join(','));
+}
+
+//=====через switch-case========//
+
+switch (lang) {
+  case 'ru':
+    console.log(daysWeek.ru.join(','));
+    break;
+  case 'en':
+    console.log(daysWeek.en.join(','));
+    break;
+}
+
+//=============================================

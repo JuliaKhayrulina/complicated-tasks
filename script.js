@@ -1,4 +1,8 @@
-const str = prompt('Введите текст', '');
+const str =
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae cumque reprehenderit aut nam repudiandae itaque laborum officia corrupti, sed placeat. Iure nostrum quo cum aut debitis suscipit laboriosam laudantium maiores ipsam quam, animi dignissimos rerum libero natus vitae fuga itaque asperiores? Vitae, maxime. Voluptate, necessitatibus!';
+
+//const str = 10;
+
 let result = getString(str);
 
 function getString(str) {

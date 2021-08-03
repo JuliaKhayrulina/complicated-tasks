@@ -1,34 +1,17 @@
-let lang = prompt('введите "en" или "ru"', '');
+const str = prompt('Введите текст', '');
+let result = getString(str);
 
-//====через многомерный массив=======//
-
-const daysWeek = [];
-daysWeek.ru = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
-daysWeek.en = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-console.log(daysWeek[lang]);
-
-//======через if======//
-
-if (lang == 'ru') {
-  console.log(daysWeek.ru.join(','));
-} else {
-  console.log(daysWeek.en.join(','));
+function getString(str) {
+  if (typeof str != 'string') {
+    alert('Это не строка');
+  } else {
+    str = str.trim();
+    if (str.length > 30) {
+      str = str.substr(0, 30);
+      str += '...';
+    }
+  }
+  return str;
 }
-
-//=====через switch-case========//
-
-switch (lang) {
-  case 'ru':
-    console.log(daysWeek.ru.join(','));
-    break;
-  case 'en':
-    console.log(daysWeek.en.join(','));
-    break;
-}
-
-//=============================================
-let namePerson = prompt('Введите имя', '');
-
-console.log(
-  namePerson === 'Артем' ? 'директор' : namePerson === 'Максим' ? 'преподаватель' : 'студент'
-);
+console.log(`длина строки была: ${str.length} \n${str}`);
+console.log(`длина строки стала:${result.length} \n${result}`);

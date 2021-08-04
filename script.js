@@ -1,26 +1,21 @@
-// const data =
-//   '                                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae cumque reprehenderit aut nam repudiandae itaque laborum officia corrupti, sed placeat. Iure nostrum quo cum aut debitis suscipit laboriosam laudantium maiores ipsam quam, animi dignissimos rerum libero natus vitae fuga itaque asperiores? Vitae, maxime. Voluptate, necessitatibus!';
+const arr = ['3322', '2770', '8935', '4332', '9000', '2566', '4770'];
 
-const data = 10;
-
-let result;
-getString(data);
-
-function getString(str) {
-  if (typeof str != 'string') {
-    alert('Это не строка');
-  } else {
-    str = str.trim();
-    if (str.length > 30) {
-      str = str.substr(0, 30);
-      str += '...';
-    }
-    result = str;
-    showResult(data, result);
+arr.forEach((item) => {
+  if (item[0] == 2 || item[0] == 4) {
+    console.log(item);
   }
-}
+});
 
-function showResult(str, res) {
-  console.log(`длина строки была: ${str.length} \n${str}`);
-  console.log(`длина строки стала:${result.length} \n${result}`);
+//=============================================
+
+for (let i = 2; i <= 100; i++) {
+  let count = 0;
+  for (let j = 1; j <= 100; j++) {
+    if (i % j == 0) {
+      count += 1;
+    }
+  }
+  if (count <= 2) {
+    console.log(`${i} - делители этого числа: 1 и ${i}`);
+  }
 }

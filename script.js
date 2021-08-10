@@ -48,7 +48,7 @@ function upDate() {
     arrMinutes
   )}
  ${seconds} ${declOfWorlds(seconds, arrSeconds)}`;
-  console.log(`${dayWeek} ${nowDate} ${time}`);
+  document.querySelector('.date-one').textContent = `${dayWeek} ${nowDate} ${time}`;
 }
 
 //======================================================================================
@@ -61,7 +61,9 @@ function upTime() {
   const minutes = ('0' + myDate.getMinutes()).slice(-2);
   const seconds = ('0' + myDate.getSeconds()).slice(-2);
 
-  console.log(`${day}.${month}.${myDate.getFullYear()} - ${hours}:${minutes}:${seconds}`);
+  document.querySelector(
+    '.date-two'
+  ).textContent = `${day}.${month}.${myDate.getFullYear()} - ${hours}:${minutes}:${seconds}`;
 }
 
 setInterval(() => upDate(), 1000);

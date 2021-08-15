@@ -42,8 +42,23 @@ class DomElement {
       font-size: ${this.fontSize}px;
   `;
   }
-  listener(key) {
-    let elem = document.getElementsByClassName(`${this.selector}`)[0];
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  const text = ['Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, quibusdam.'];
+  const objCss = {
+    position: 'absolute',
+  };
+  const square = new DomElement('.square', 100, 100, '#bbe46a', 30, '', objCss);
+
+  square.createElement();
+
+  document.addEventListener('keydown', function (e) {
+    listener(e.key);
+  });
+
+  function listener(key) {
+    let elem = document.getElementsByClassName(`${square.selector}`)[0];
     let top = parseInt(window.getComputedStyle(elem).top);
     let bottom = parseInt(window.getComputedStyle(elem).bottom);
     let left = parseInt(window.getComputedStyle(elem).left);
@@ -60,20 +75,10 @@ class DomElement {
         elem.style.left = left - 10 + 'px';
         break;
       case 'ArrowRight':
+        console.log(right);
+        console.log(parseInt(window.getComputedStyle(elem).right), 'get');
         elem.style.right = right - 10 + 'px';
         break;
     }
   }
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-  const text = ['Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, quibusdam.'];
-  const objCss = {
-    position: 'absolute',
-  };
-  const square = new DomElement('.square', 100, 100, '#bbe46a', 30, '', objCss);
-  square.createElement();
-  document.addEventListener('keydown', function (e) {
-    square.listener(e.key);
-  });
 });

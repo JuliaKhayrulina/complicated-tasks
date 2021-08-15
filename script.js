@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const text = ['Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, quibusdam.'];
   const objCss = {
     position: 'absolute',
+    top: '0px',
+    left: '0px',
   };
   const square = new DomElement('.square', 100, 100, '#bbe46a', 30, '', objCss);
 
@@ -59,25 +61,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function listener(key) {
     let elem = document.getElementsByClassName(`${square.selector}`)[0];
-    let top = parseInt(window.getComputedStyle(elem).top);
-    let bottom = parseInt(window.getComputedStyle(elem).bottom);
-    let left = parseInt(window.getComputedStyle(elem).left);
-    let right = parseInt(window.getComputedStyle(elem).right);
 
     switch (key) {
       case 'ArrowUp':
-        elem.style.top = top - 10 + 'px';
+        elem.style.top = parseInt(elem.style.top) + 10 + 'px';
         break;
       case 'ArrowDown':
-        elem.style.bottom = bottom - 10 + 'px';
+        elem.style.top = parseInt(elem.style.top) - 10 + 'px';
         break;
       case 'ArrowLeft':
-        elem.style.left = left - 10 + 'px';
+        elem.style.left = parseInt(elem.style.left) + 10 + 'px';
         break;
       case 'ArrowRight':
-        console.log(right);
-        console.log(parseInt(window.getComputedStyle(elem).right), 'get');
-        elem.style.right = right - 10 + 'px';
+        elem.style.left = parseInt(elem.style.left) - 10 + 'px';
         break;
     }
   }

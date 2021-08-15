@@ -64,16 +64,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
     switch (key) {
       case 'ArrowUp':
-        elem.style.top = parseInt(elem.style.top) + 10 + 'px';
-        break;
-      case 'ArrowDown':
         elem.style.top = parseInt(elem.style.top) - 10 + 'px';
         break;
+      case 'ArrowDown':
+        elem.style.top = parseInt(elem.style.top) + 10 + 'px';
+        break;
       case 'ArrowLeft':
-        elem.style.left = parseInt(elem.style.left) + 10 + 'px';
+        elem.style.left = parseInt(elem.style.left) - 10 + 'px';
         break;
       case 'ArrowRight':
-        elem.style.left = parseInt(elem.style.left) - 10 + 'px';
+        elem.style.left = parseInt(elem.style.left) + 10 + 'px';
         break;
     }
   }

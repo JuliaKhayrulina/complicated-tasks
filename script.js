@@ -8,6 +8,6 @@ document.querySelector('button').addEventListener('click', () => {
   }
   let toNumber = +str;
   let color = toNumber.toString(16);
-  console.log(color);
+  document.querySelector('p').textContent = color;
   document.body.style.backgroundColor = `#${color}`;
 });

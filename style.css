@@ -1,12 +1,1 @@
-body {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-}
 
-button {
-  width: 150px;
-  height: 60px;
-}

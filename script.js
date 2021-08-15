@@ -51,16 +51,16 @@ class DomElement {
 
     switch (key) {
       case 'ArrowUp':
-        elem.style.top = top + 10 + 'px';
+        elem.style.top = top - 10 + 'px';
         break;
       case 'ArrowDown':
-        elem.style.bottom = bottom + 10 + 'px';
+        elem.style.bottom = bottom - 10 + 'px';
         break;
       case 'ArrowLeft':
-        elem.style.left = left + 10 + 'px';
+        elem.style.left = left - 10 + 'px';
         break;
       case 'ArrowRight':
-        elem.style.right = right + 10 + 'px';
+        elem.style.right = right - 10 + 'px';
         break;
     }
   }

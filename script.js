@@ -42,7 +42,7 @@ function initLogin() {
     let pass = prompt('Введите пароль');
     arrDataUsers.forEach((item, index, array) => {
       if (item.login === login && item.password === pass) {
-        document.querySelector('.hello-title').textContent = `Привет, ${item.firstName}`;
+        document.querySelector('.hello-title').textContent = `Привет, ${item.firstName}!`;
         count++;
       }
     });

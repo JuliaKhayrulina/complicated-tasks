@@ -34,16 +34,22 @@ function initRegister() {
 }
 
 function initLogin() {
+  const date = JSON.parse(localStorage.getItem('dataUser'));
+
   let count = 0;
   let login = prompt('Введите логин');
+
   if (!login) {
     return;
   } else {
     let pass = prompt('Введите пароль');
-    arrDataUsers.forEach((item, index, array) => {
+    date.forEach((item, index) => {
       if (item.login === login && item.password === pass) {
-        document.querySelector('.hello-title').textContent = `Привет, ${item.firstName}!`;
+        localStorage.clear();
+        localStorage.setItem('dataUser', JSON.stringify(date));
+        localStorage.setItem(index, item.firstName);
         count++;
+        outputDataOnPage();
       }
     });
     if (!count) {
@@ -54,6 +60,7 @@ function initLogin() {
 
 function outputDataOnPage() {
   dataUsersBlock.innerHTML = '';
+  document.querySelector('.hello-title').textContent = `Привет, аноним!`;
   const date = JSON.parse(localStorage.getItem('dataUser'));
 
   if (date) {
@@ -66,6 +73,11 @@ function outputDataOnPage() {
       p.innerHTML = str;
       p.append(button);
       dataUsersBlock.append(p);
+
+      let title = localStorage.getItem(index);
+      if (title) {
+        document.querySelector('.hello-title').textContent = `Привет, ${title}!`;
+      }
     });
   }
 }
@@ -120,9 +132,10 @@ function getDataUser() {
 }
 
 function delUserData(target) {
-  target.parentElement.remove();
   arrDataUsers.splice(target.id, 1);
   localStorage.setItem('dataUser', JSON.stringify(arrDataUsers));
+  localStorage.removeItem(target.id);
+  outputDataOnPage();
 }
 
 register.addEventListener('click', initRegister);

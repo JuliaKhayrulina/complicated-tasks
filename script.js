@@ -1,80 +1,135 @@
 'use strict';
 
-class DomElement {
-  constructor(selector, height, width, bg, fontSize, text, objCss) {
-    this.selector = selector;
-    this.height = height;
-    this.width = width;
-    this.bg = bg;
-    this.fontSize = fontSize;
-    this.text = text;
-    this.objCss = objCss;
-  }
-  createElement() {
-    this.selector = this.selector.trim();
-    let element;
+const register = document.querySelector('.register'), //зарегистрироваться
+  login = document.querySelector('.login'), //авторизоваться
+  dataUsersBlock = document.querySelector('.dataUsers'); //блок куда выводятся данные
 
-    if (this.selector[0] === '.') {
-      element = document.createElement('div');
-      element.classList.add(`${this.selector}`);
-      element.textContent = this.text;
-      document.body.append(element);
-      this.createStyles(element);
-    }
-    if (this.selector[0] === '#') {
-      element = document.createElement('p');
-      element.id = `${this.selector}`;
-      element.textContent = this.text;
-      document.body.append(element);
-      this.createStyles(element);
-    }
-  }
-  createStyles(element) {
-    if (this.objCss) {
-      for (let key in this.objCss) {
-        element.style.cssText += `${key}: ${this.objCss[key]}`;
-      }
-    }
-    element.style.cssText += `
-      height: ${this.height}px;
-      width: ${this.width}px;
-      background: ${this.bg};
-      font-size: ${this.fontSize}px;
-  `;
+outputDataOnPage();
+
+let arrDataUsers = [],
+  arrLocalData = JSON.parse(localStorage.getItem('dataUser'));
+
+if (arrLocalData) {
+  arrDataUsers = JSON.parse(localStorage.getItem('dataUser'));
+}
+
+class User {
+  constructor(firstName, lastName, login, password, regDate) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.login = login;
+    this.password = password;
+    this.regDate = regDate;
   }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  const text = ['Lorem ipsum, dolor sit amet consectetur adipisicing elit. Dolores, quibusdam.'];
-  const objCss = {
-    position: 'absolute',
-    top: '0px',
-    left: '0px',
-  };
-  const square = new DomElement('.square', 100, 100, '#bbe46a', 30, '', objCss);
+function initRegister() {
+  let data = getDataUser();
+  const dataUser = new User(data[0], data[1], data[2], data[3], createRegDate());
 
-  square.createElement();
+  arrDataUsers.push(dataUser);
+  localStorage.setItem('dataUser', JSON.stringify(arrDataUsers));
 
-  document.addEventListener('keydown', function (e) {
-    listener(e.key);
-  });
+  outputDataOnPage();
+}
 
-  function listener(key) {
-    let elem = document.getElementsByClassName(`${square.selector}`)[0];
-
-    switch (key) {
-      case 'ArrowUp':
-        elem.style.top = parseInt(elem.style.top) - 10 + 'px';
-        break;
-      case 'ArrowDown':
-        elem.style.top = parseInt(elem.style.top) + 10 + 'px';
-        break;
-      case 'ArrowLeft':
-        elem.style.left = parseInt(elem.style.left) - 10 + 'px';
-        break;
-      case 'ArrowRight':
-        elem.style.left = parseInt(elem.style.left) + 10 + 'px';
-        break;
+function initLogin() {
+  let count = 0;
+  let login = prompt('Введите логин');
+  if (!login) {
+    return;
+  } else {
+    let pass = prompt('Введите пароль');
+    arrDataUsers.forEach((item, index, array) => {
+      if (item.login === login && item.password === pass) {
+        document.querySelector('.hello-title').textContent = `Привет, ${item.firstName}`;
+        count++;
+      }
+    });
+    if (!count) {
+      alert('Пользователь не найден!');
     }
+  }
+}
+
+function outputDataOnPage() {
+  dataUsersBlock.innerHTML = '';
+  const date = JSON.parse(localStorage.getItem('dataUser'));
+
+  if (date) {
+    date.forEach((item, index) => {
+      let str = `Имя: ${item.firstName}, Фамилия: ${item.lastName}, зарегистрирован: ${item.regDate}`;
+      const p = document.createElement('p');
+      const button = document.createElement('button');
+      button.classList.add(`delete`);
+      button.id = `${index}`;
+      p.innerHTML = str;
+      p.append(button);
+      dataUsersBlock.append(p);
+    });
+  }
+}
+
+function createRegDate() {
+  const months = [
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Мая',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабря',
+  ];
+
+  const regDate = new Date();
+  const hours = ('0' + regDate.getHours()).slice(-2);
+  const minutes = ('0' + regDate.getMinutes()).slice(-2);
+  const seconds = ('0' + regDate.getSeconds()).slice(-2);
+  const nowDate = `${regDate.getDate()} ${
+    months[regDate.getMonth()]
+  } ${regDate.getFullYear()} г., ${hours}:${minutes}:${seconds}`;
+
+  return nowDate;
+}
+
+function getDataUser() {
+  let userName = prompt('Введите имя и фамилию', 'Иван Иванов');
+  userName = userName.split(' ');
+
+  while (userName.length !== 2) {
+    userName = prompt('Вы ввели некорректное имя и фамилию, повторите еще раз', 'Иван Иванов');
+    userName = userName.split(' ');
+  }
+
+  let login = prompt('Придумайте логин');
+  while (login == '') {
+    login = prompt('Придумайте логин');
+  }
+
+  let password = prompt('Придумайте пароль не менее 5 символов');
+  while (password.length < 5) {
+    password = prompt('Придумайте пароль не менее 5 символов');
+  }
+
+  return [userName[0], userName[1], login, password];
+}
+
+function delUserData(target) {
+  target.parentElement.remove();
+  arrDataUsers.splice(target.id, 1);
+  localStorage.setItem('dataUser', JSON.stringify(arrDataUsers));
+}
+
+register.addEventListener('click', initRegister);
+login.addEventListener('click', initLogin);
+
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.classList.contains('delete')) {
+    delUserData(e.target);
   }
 });

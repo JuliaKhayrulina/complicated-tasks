@@ -1,1 +1,23 @@
+* {
+  width: 90%;
+  height: 50px;
+  margin: auto;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+.container {
+  width: 50%;
+  margin: auto;
+}
+input {
+  display: block;
+  margin-bottom: 20px;
+  border: none;
+  outline: none;
+  background: #45e33578;
+}
 
+p {
+  min-height: 100px;
+  background: #fdfcfa;
+}

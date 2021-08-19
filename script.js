@@ -1,20 +1,29 @@
-function debounce(f, t) {
-  return function (args) {
-    let previousCall = this.lastCall;
-    this.lastCall = Date.now();
-    if (previousCall && this.lastCall - previousCall <= t) {
-      clearTimeout(this.lastCallTimer);
-    }
-    this.lastCallTimer = setTimeout(() => f(args), t);
-  };
+'use strict';
+
+let one = document.querySelector('.one');
+let two = document.querySelector('.two');
+let interval;
+let count = 0;
+
+function oneDown() {
+  interval = requestAnimationFrame(oneDown);
+  count++;
+
+  if (count < 450) {
+    one.style.top = count + 'px';
+    two.style.left = count * 2 + 'px';
+  } else {
+    cancelAnimationFrame(interval);
+  }
+  console.log(count);
 }
 
-let logger = (args) => (document.querySelector('p').textContent = args);
-let debouncedLogger = debounce(logger, 300);
-
-function func() {
-  let value = document.querySelector('input').value;
-  debouncedLogger(value);
-}
-
-document.querySelector('input').addEventListener('input', func);
+let animate = false;
+document.addEventListener('click', () => {
+  if (animate) {
+    interval = requestAnimationFrame(oneDown);
+    let animate = false;
+  } else {
+    animate = true;
+  }
+});

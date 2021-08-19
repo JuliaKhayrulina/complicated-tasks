@@ -1,16 +1,1 @@
-.container {
-  width: 50%;
-  margin: auto;
-}
-.delete {
-  padding: 0;
-  border: none;
-  width: 20px;
-  height: 20px;
-  margin-left: 20px;
-  background: url('./img/delete.svg');
-}
-p {
-  display: flex;
-  align-items: center;
-}
+

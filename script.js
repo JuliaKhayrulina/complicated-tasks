@@ -1,148 +1,77 @@
 'use strict';
 
-const register = document.querySelector('.register'), //зарегистрироваться
-  login = document.querySelector('.login'), //авторизоваться
-  dataUsersBlock = document.querySelector('.dataUsers'); //блок куда выводятся данные
+function getDate() {
+  const today = new Date();
+  let result = '';
 
-outputDataOnPage();
+  function getToday() {
+    let hours = today.getHours();
 
-let arrDataUsers = [],
-  arrLocalData = JSON.parse(localStorage.getItem('dataUser'));
-
-if (arrLocalData) {
-  arrDataUsers = JSON.parse(localStorage.getItem('dataUser'));
-}
-
-class User {
-  constructor(firstName, lastName, login, password, regDate) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.login = login;
-    this.password = password;
-    this.regDate = regDate;
-  }
-}
-
-function initRegister() {
-  let data = getDataUser();
-  const dataUser = new User(data[0], data[1], data[2], data[3], createRegDate());
-
-  arrDataUsers.push(dataUser);
-  localStorage.setItem('dataUser', JSON.stringify(arrDataUsers));
-
-  outputDataOnPage();
-}
-
-function initLogin() {
-  const date = JSON.parse(localStorage.getItem('dataUser'));
-
-  let count = 0;
-  let login = prompt('Введите логин');
-
-  if (!login) {
-    return;
-  } else {
-    let pass = prompt('Введите пароль');
-    date.forEach((item, index) => {
-      if (item.login === login && item.password === pass) {
-        localStorage.clear();
-        localStorage.setItem('dataUser', JSON.stringify(date));
-        localStorage.setItem(index, item.firstName);
-        count++;
-        outputDataOnPage();
-      }
-    });
-    if (!count) {
-      alert('Пользователь не найден!');
+    if (hours > 16) {
+      result = `<p>Добрый вечер</p>`;
+    } else if (hours > 11) {
+      result = `<p>Добрый день</p>`;
+    } else if (hours > 5) {
+      result = `<p>Доброе утро</p>`;
+    } else if (hours >= 0) {
+      result = `<p>Доброй ночи</p>`;
     }
+    getdayWeek();
   }
+
+  function getNewDate() {
+    const nextDate = new Date('January  1, 2022'),
+      nextNewYear = Math.ceil((nextDate.getTime() - today.getTime()) / 1000 / 3600 / 24),
+      days = ['день', 'дня', 'дней'];
+
+    result += `<p>До нового года осталось ${nextNewYear} ${declOfWorlds(nextNewYear, days)}</p>`;
+  }
+
+  function getdayWeek() {
+    const dayWeek = [
+        'Воскресенье',
+        'Понедельник',
+        'Вторник',
+        'Среда',
+        'Четверг',
+        'Пятница',
+        'Суббота',
+      ],
+      day = dayWeek[today.getDay()];
+
+    result += `<p>Сегодня: ${day}</p>`;
+    getTimeNow();
+  }
+
+  function getTimeNow() {
+    const hours = ('0' + today.getHours()).slice(-2),
+      minutes = ('0' + today.getMinutes()).slice(-2),
+      seconds = ('0' + today.getSeconds()).slice(-2),
+      amPm = today.toLocaleTimeString('en').slice(-2);
+
+    result += `<p>Текущее время: ${hours}:${minutes}:${seconds} ${amPm}</p>`;
+    getNewDate();
+  }
+
+  getToday();
+  return result;
 }
 
-function outputDataOnPage() {
-  dataUsersBlock.innerHTML = '';
-  document.querySelector('.hello-title').textContent = `Привет, аноним!`;
-  const date = JSON.parse(localStorage.getItem('dataUser'));
+document.querySelector('.result').innerHTML = getDate();
 
-  if (date) {
-    date.forEach((item, index) => {
-      let str = `Имя: ${item.firstName}, Фамилия: ${item.lastName}, зарегистрирован: ${item.regDate}`;
-      const p = document.createElement('p');
-      const button = document.createElement('button');
-      button.classList.add(`delete`);
-      button.id = `${index}`;
-      p.innerHTML = str;
-      p.append(button);
-      dataUsersBlock.append(p);
+//====окончание слов==========//
 
-      let title = localStorage.getItem(index);
-      if (title) {
-        document.querySelector('.hello-title').textContent = `Привет, ${title}!`;
-      }
-    });
+function declOfWorlds(n, text) {
+  n = Math.abs(n) % 100;
+  let n1 = n % 10;
+  if (n > 10 && n < 20) {
+    return text[2];
   }
+  if (n1 > 1 && n1 < 5) {
+    return text[1];
+  }
+  if (n1 == 1) {
+    return text[0];
+  }
+  return text[2];
 }
-
-function createRegDate() {
-  const months = [
-    'Января',
-    'Февраля',
-    'Марта',
-    'Апреля',
-    'Мая',
-    'Июня',
-    'Июля',
-    'Августа',
-    'Сентября',
-    'Октября',
-    'Ноября',
-    'Декабря',
-  ];
-
-  const regDate = new Date();
-  const hours = ('0' + regDate.getHours()).slice(-2);
-  const minutes = ('0' + regDate.getMinutes()).slice(-2);
-  const seconds = ('0' + regDate.getSeconds()).slice(-2);
-  const nowDate = `${regDate.getDate()} ${
-    months[regDate.getMonth()]
-  } ${regDate.getFullYear()} г., ${hours}:${minutes}:${seconds}`;
-
-  return nowDate;
-}
-
-function getDataUser() {
-  let userName = prompt('Введите имя и фамилию', 'Иван Иванов');
-  userName = userName.split(' ');
-
-  while (userName.length !== 2) {
-    userName = prompt('Вы ввели некорректное имя и фамилию, повторите еще раз', 'Иван Иванов');
-    userName = userName.split(' ');
-  }
-
-  let login = prompt('Придумайте логин');
-  while (login == '') {
-    login = prompt('Придумайте логин');
-  }
-
-  let password = prompt('Придумайте пароль не менее 5 символов');
-  while (password.length < 5) {
-    password = prompt('Придумайте пароль не менее 5 символов');
-  }
-
-  return [userName[0], userName[1], login, password];
-}
-
-function delUserData(target) {
-  arrDataUsers.splice(target.id, 1);
-  localStorage.setItem('dataUser', JSON.stringify(arrDataUsers));
-  localStorage.removeItem(target.id);
-  outputDataOnPage();
-}
-
-register.addEventListener('click', initRegister);
-login.addEventListener('click', initLogin);
-
-document.addEventListener('click', function (e) {
-  if (e.target && e.target.classList.contains('delete')) {
-    delUserData(e.target);
-  }
-});
